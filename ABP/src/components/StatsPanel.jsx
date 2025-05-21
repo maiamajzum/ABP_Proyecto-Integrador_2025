@@ -2,7 +2,7 @@ function StatsPanel(props) {
 
     return (
    
-       <div className="bg-blue-200 p-6 rounded-lg shadow-xl mt-6 border-2 border-blue-300">
+       <div className="bg-blue-500 p-6 rounded-lg shadow-xl mt-6 border-2 border-blue-600">
             <h2 className="text-xl font-bold mb-4">Estadísticas</h2>
             <p>Productos totales: {props.total}</p>
             <p>Producto más caro: {props.max ? `${props.max.title} - $${props.max.price}` : "N/A"}</p>
