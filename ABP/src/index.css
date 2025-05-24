@@ -8,3 +8,8 @@ body {
     background-color: black;
     color: azure;
 }
+
+.dark-mode input {
+  background-color: black;
+  color: azure;
+}
