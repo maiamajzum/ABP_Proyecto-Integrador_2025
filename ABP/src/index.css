@@ -7,9 +7,15 @@ body {
 .dark-mode {
     background-color: black;
     color: azure;
+    min-height: 100vh;
 }
 
 .dark-mode input {
+  background-color: black;
+  color: azure;
+}
+
+.dark-mode select {
   background-color: black;
   color: azure;
 }
