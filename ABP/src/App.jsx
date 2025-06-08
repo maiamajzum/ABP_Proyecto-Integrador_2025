@@ -1,8 +1,6 @@
 import "./App.css";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-
-// Importamos los componentes
 import ProductList from "./components/ProductList";
 import StatsPanel from "./components/StatsPanel";
 import AdvancedStatsPanel from "./components/AdvancedStatsPanel";
@@ -21,7 +19,6 @@ function App() {
   const [sortOption, setSortOption] = useState("");
   const [page, setPage] = useState(1);
   const [format, setFormat] = useState("");
-  const [showCategoryStats, setShowCategoryStats] = useState(false); // Mostrar estadísticas por categoría
 
   const containerRef = useRef(null);
   const limit = 30;
@@ -197,6 +194,7 @@ function App() {
 
       <ProductList products={filteredProducts} />
 
+      {/* Selección de formato y exportación */}
       <div className="my-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <select
           onChange={(e) => setFormat(e.target.value)}
@@ -216,6 +214,7 @@ function App() {
         </button>
       </div>
 
+      {/* Paginación */}
       <div className="flex justify-center gap-4 mt-6">
         <button
           disabled={page === 1}
@@ -234,6 +233,7 @@ function App() {
         </button>
       </div>
 
+      {/* Mostrar estadísticas generales y por categoría */}
       <button
         onClick={() => setShow(!show)}
         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mt-4"
@@ -256,19 +256,8 @@ function App() {
             averageRating={filteredAverageRating}
           />
 
-          <div className="mt-6">
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                checked={showCategoryStats}
-                onChange={() => setShowCategoryStats(!showCategoryStats)}
-                className="mr-2"
-              />
-              Mostrar estadísticas por categoría
-            </label>
-          </div>
-
-          {showCategoryStats && (
+          {/* Mostrar estadísticas por categoría solo si hay más de una categoría visible */}
+          {new Set(filteredProducts.map(p => p.category)).size > 1 && (
             <AdvancedStatsPanel
               statsByCategory={filteredStatsByCategory}
               countByCategory={filteredCountByCategory}
