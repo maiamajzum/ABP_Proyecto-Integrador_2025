@@ -1,45 +1,33 @@
-function FilterBar({
-  category,
-  onCategoryChange,
-  categories,
-  sortOption,
-  onSortChange
-}) {
+function FilterBar({ category, onCategoryChange, categories, sortOption, onSortChange }) {
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-6 items-start md:items-end">
-      
-      {/*Filtro por categoría*/}
-      <div>
-        <label className="block mb-1 text-sm font-semibold">Filtrar por categoría:</label>
-        <select
-          value={category}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          className="border-2 border-gray-300 p-2 rounded-lg w-64"
-        >
-          <option value="all">Todas</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
+    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      {/* Selector de categoría */}
+      <select
+        value={category}
+        onChange={(e) => onCategoryChange(e.target.value)}
+        className="border border-gray-300 px-4 py-2 rounded-md"
+      >
+        <option value="all">Todas</option>
+        {Array.isArray(categories) &&
+          categories.map((cat) => (
+            <option key={cat.slug} value={cat.slug}>
+              {cat.name}
             </option>
           ))}
-        </select>
-      </div>
+      </select>
 
-      {/*Ordenamiento */}
-      <div>
-        <label className="block mb-1 text-sm font-semibold">Ordenar por:</label>
-        <select
-          value={sortOption}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="border-2 border-gray-300 p-2 rounded-lg w-64"
-        >
-          <option value="">Sin orden</option>
-          <option value="price-asc">Precio: menor a mayor</option>
-          <option value="price-desc">Precio: mayor a menor</option>
-          <option value="rating-asc">Rating: menor a mayor</option>
-          <option value="rating-desc">Rating: mayor a menor</option>
-        </select>
-      </div>
+      {/* Selector de ordenamiento */}
+      <select
+        value={sortOption}
+        onChange={(e) => onSortChange(e.target.value)}
+        className="border border-gray-300 px-4 py-2 rounded-md"
+      >
+        <option value="">Ordenar por</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+        <option value="rating-asc">Rating: menor a mayor</option>
+        <option value="rating-desc">Rating: mayor a menor</option>
+      </select>
     </div>
   );
 }

@@ -6,25 +6,52 @@ import ProductList from "./components/ProductList";
 import StatsPanel from "./components/StatsPanel";
 import SearchBar from "./components/SearchBar";
 import FilterBar from "./components/FilterBar";
-
+import * as XLSX from "xlsx";
 function App() {
     //Estados
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
     const [show, setShow] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
+    const [categories, setCategories] = useState([]);
     const [categoryFilter, setCategoryFilter] = useState("all");
     const [sortOption, setSortOption] = useState("");
+    const [page, setPage] = useState(1);
+    const [format, setFormat] = useState("");
     //Referencias
     const containerRef = useRef(null);
+    const limit = 2;
+  //Obtener categorias de productos
+   useEffect(() => {
+     axios
+      .get("https://dummyjson.com/products/categories")
+      .then((res) => {
+        console.log("CATEGORÍAS:", res.data); 
+        setCategories(res.data); 
+      })
+      .catch((error) => {
+        console.error("Error al obtener categorías:", error);
+      });
+   }, []);
+    
+    //Traemos productos paginados
+  useEffect(() => {
+    let url = "";
 
-    useEffect(() => {
-        axios.get("https://dummyjson.com/products?limit=100").then((res) => {
-            setProducts(res.data.products);
-        });
-    }, []);
-    // Obtener lista unica de categorias
-    const categories = [...new Set(products.map((p) => p.category))];
+    if (categoryFilter === "all") {
+      url = `https://dummyjson.com/products?limit=${limit}&skip=${(page - 1) * limit}`;
+    } else {
+      url = `https://dummyjson.com/products/category/${categoryFilter}?limit=${limit}&skip=${(page - 1) * limit}`;
+    }
+
+    axios.get(url).then((res) => {
+      setProducts(res.data.products);
+    });
+  }, [page, categoryFilter]);
+    const handleCategoryChange = (newCategory) => {
+      setPage(1); // Para no quedar en una página vacía
+      setCategoryFilter(newCategory);
+    };
     // Filtramos y ordenarproductos
    const filteredProducts = products
   .filter((p) =>
@@ -54,6 +81,58 @@ function App() {
     const averageDiscount = filteredProducts.length > 0
         ? filteredProducts.reduce((total, product) => total + product.discountPercentage, 0) / filteredProducts.length
         : 0;
+    // Función para exportar productos filtrados a JSON, CSV y Excel (xls)
+    const handleExport = () => {
+      if (format === "json") {
+        const blob = new Blob([JSON.stringify(filteredProducts, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        triggerDownload(url, "productos.json");
+      } else if (format === "csv") {
+        const headers = Object.keys(filteredProducts[0]).join(",");
+        const rows = filteredProducts
+         .map((product) =>
+          Object.values(product)
+            .map((val) => `"${String(val).replace(/"/g, '""')}"`)
+            .join(",")
+        )
+        .join("\n");
+        const csvContent = `${headers}\n${rows}`;
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+       });
+      const url = URL.createObjectURL(blob);
+      triggerDownload(url, "productos.csv");
+    } else if (format === "xls") {
+      const worksheet = XLSX.utils.json_to_sheet(filteredProducts);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = URL.createObjectURL(blob);
+      triggerDownload(url, "productos.xlsx");
+    }
+  };
+
+    // Función que dispara la descarga de un archivo
+    const triggerDownload = (url, filename) => {
+        //crear el hipervinculo
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        //Agregamos el anchor tag en el DOM
+        document.body.appendChild(link);
+        //Simulas el click en el elemento
+        link.click();
+        //Eliminar el elemento anchor
+        document.body.removeChild(link);
+    };
+    // Modo oscuro
     const toggleDarkMode= () => {
         
     
@@ -83,24 +162,59 @@ function App() {
         {/*Filtro por categoría y ordenamiento*/}
         <FilterBar
            category={categoryFilter}
-           onCategoryChange={setCategoryFilter}
+           onCategoryChange={handleCategoryChange}
            categories={categories}
            sortOption={sortOption}
            onSortChange={setSortOption}
-        />
+         /> 
         {/*Lista de productos*/}
             <ProductList products={filteredProducts} />
+        {/*Seleccion de formato y exportacion*/}
+       <div className="my-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+         <select
+           onChange={(e) => setFormat(e.target.value)}
+           value={format}
+           className="border border-gray-300 px-4 py-2 rounded-md"
+         >
+           <option value="">Seleccionar formato para exportar productos filtrados</option>
+           <option value="json">JSON</option>
+           <option value="csv">CSV</option>   
+           <option value="xls">Excel</option>       
+         </select>
+         <button
+            onClick={handleExport}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+         >
+            Exportar archivo
+         </button>
+       </div>
+
+        {/*Paginación*/}
+        <div className="flex justify-center gap-4 mt-6">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+          >
+            Página anterior
+          </button>
+          <span className="text-gray-700 font-medium">
+             {page}
+          </span>
+          <button
+            disabled={products.length < limit}
+            onClick={() => setPage(page + 1)}
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+       >
+            Página siguiente
+          </button>
+        </div>
         {/*Botón de estadísticas*/}
             <button
                 onClick={() => setShow(!show)}
-                className="px-6 py-2 bg-blue-500 
-                text-white rounded-lg border-2 
-                border-blue-600 
-                hover:bg-blue-600 
-                hover:border-blue-700 
-                transition-all duration-300 ease-in-out shadow-md mt-6"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >
-                {show ? "Ocultar" : "Mostrar"}
+                {show ? "Ocultar Estadísticas" : "Mostrar Estadísticas"}
             </button>
             {/*Panel de estadísticas*/}
             {show && filteredProducts.length > 0 && (
