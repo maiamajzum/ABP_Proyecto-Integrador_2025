@@ -7,6 +7,7 @@ import AdvancedStatsPanel from "./components/AdvancedStatsPanel";
 import SearchBar from "./components/SearchBar";
 import FilterBar from "./components/FilterBar";
 import * as XLSX from "xlsx";
+import ProductCharts from "./components/ProductCharts";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -265,7 +266,10 @@ function App() {
           )}
         </>
       )}
-
+      {/* Gráficos de productos */}  
+      {filteredProducts.length > 0 && (
+        <ProductCharts filteredProducts={filteredProducts} />
+       )}
       {filteredProducts.length === 0 && (
         <div className="text-gray-500 mt-4">No se encontraron productos</div>
       )}
