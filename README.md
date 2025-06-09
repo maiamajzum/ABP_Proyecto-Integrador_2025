@@ -1,16 +1,17 @@
 # ABP_Proyecto-Integrador_2025
 
 Este proyecto es una aplicación web desarrollada con React y Tailwind CSS que permite explorar y analizar productos obtenidos desde una API externa. La app implementa búsqueda, filtrado por categoría, ordenamiento, estadísticas y exportación de datos.
-
+```
 **Funcionalidades principales**
-
+```
 Exploración de productos:
 -Visualización de productos en grilla responsiva.
 -Búsqueda por título del producto.
 -Filtros por categoría (obtenidas desde la API).
 -Ordenamiento por precio y calificación (ascendente o descendente).
 -Navegación paginada.
-
+```
+```
 **Estadísticas dinámicas**
 ```
 Panel de estadísticas generales con:
@@ -23,24 +24,28 @@ Panel de estadísticas generales con:
 -Cantidad de productos con stock > 50.
 -Cantidad de productos con calificación > 4.5.
 ```
+```
 Panel de estadísticas por categoría:
 -Precio promedio y ranking promedio  por categoría.
 -Producto más caro y más barato por categoría.
+```
 ```
 Panel de gráficos (barras, líneas, tortas):
 -Producos por categoría.
 -Simulacion de precios.
 -Proporcion de productos según stock.
 ```
+```
 Exportación de productos filtrados:
 -JSON
 -CSV
 -Excel (.XLSX)
 ```
+```
 Modo oscuro:
 -Permite alternar entre modo claro y oscuro.
 
-**División del Código en Componentes**
+**División del código en componentes**
 
 El código se ha dividido en dos componentes principales para mejorar la organización y la reutilización del código:
 
