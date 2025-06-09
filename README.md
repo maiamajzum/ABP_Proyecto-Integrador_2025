@@ -47,7 +47,7 @@ Modo oscuro:
 ```
 **División del código en componentes**
 
-El código se ha dividido en dos componentes principales para mejorar la organización y la reutilización del código:
+El código se ha dividido en componentes principales para mejorar la organización y la reutilización del código:
 
 -ProductList: Muestra la grilla de productos filtrados. Recibe la lista de productos por props y los renderiza de forma responsiva.
 
