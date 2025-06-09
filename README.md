@@ -51,7 +51,7 @@ El código se ha dividido en componentes principales para mejorar la organizaci�
 
 -ProductList: Muestra la grilla de productos filtrados. Recibe la lista de productos por props y los renderiza de forma responsiva.
 
--StatsPanel: StatsPanel: Muestra estadísticas generales como: Total de productos filtrados, producto más caro y más barato, promedios de precios, descuentos y rating, cantidad de productos con títulos largos y stock alto.
+-StatsPanel: Muestra estadísticas generales como: Total de productos filtrados, producto más caro y más barato, promedios de precios, descuentos y rating, cantidad de productos con títulos largos y stock alto.
 
 -AdvancedStatsPanel: Muestra estadísticas específicas por categoría, como precio promedio y rating por categoría. Producto más caro y más barato en cada categoría.
 
