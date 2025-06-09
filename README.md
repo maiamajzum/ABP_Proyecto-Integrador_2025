@@ -11,7 +11,7 @@ Exploración de productos:
 -Ordenamiento por precio y calificación (ascendente o descendente).
 -Navegación paginada.
 ```
-```
+
 **Estadísticas dinámicas**
 ```
 Panel de estadísticas generales con:
