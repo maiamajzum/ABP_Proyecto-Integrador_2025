@@ -1,7 +1,7 @@
 # ABP_Proyecto-Integrador_2025
 
 Este proyecto es una aplicación web desarrollada con React y Tailwind CSS que permite explorar y analizar productos obtenidos desde una API externa. La app implementa búsqueda, filtrado por categoría, ordenamiento, estadísticas y exportación de datos.
-```
+
 **Funcionalidades principales**
 ```
 Exploración de productos:
