@@ -9,7 +9,7 @@ Exploración de productos:
 -Búsqueda por título del producto.
 -Filtros por categoría (obtenidas desde la API).
 -Ordenamiento por precio y calificación (ascendente o descendente).
--Navegación paginada.
+-Navegación paginada desde la API.
 ```
 
 **Estadísticas dinámicas**
