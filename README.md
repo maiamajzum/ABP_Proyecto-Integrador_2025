@@ -20,13 +20,13 @@ Panel de estadísticas generales con:
 -Suma total de precios.
 -Promedio de precios.
 -Promedio de descuento.
--Promedio general de ranking.
+-Promedio general de rating.
 -Cantidad de productos con stock > 50.
 -Cantidad de productos con calificación > 4.5.
 ```
 ```
 Panel de estadísticas por categoría:
--Precio promedio y ranking promedio  por categoría.
+-Precio promedio y rating promedio  por categoría.
 -Producto más caro y más barato por categoría.
 ```
 ```
@@ -44,18 +44,31 @@ Exportación de productos filtrados:
 ```
 Modo oscuro:
 -Permite alternar entre modo claro y oscuro.
-
+```
 **División del código en componentes**
 
 El código se ha dividido en dos componentes principales para mejorar la organización y la reutilización del código:
 
--ProductList: Este componente es responsable de mostrar la lista de productos filtrados. Recibe como propiedad la lista de productos y los muestra en una grilla.
+-ProductList: Muestra la grilla de productos filtrados. Recibe la lista de productos por props y los renderiza de forma responsiva.
 
--StatsPanel: Este componente se encarga de mostrar las estadísticas calculadas sobre los productos filtrados. Recibe como propiedades las estadísticas como el total de productos, el producto con el precio más alto, el producto con el precio más bajo, la cantidad de productos con títulos largos, el precio total y el descuento promedio.
+-StatsPanel: StatsPanel: Muestra estadísticas generales como: Total de productos filtrados, producto más caro y más barato, promedios de precios, descuentos y rating, cantidad de productos con títulos largos y stock alto.
 
-La aplicación principal (App.jsx) gestiona el estado de los productos, el filtro de búsqueda y el control de la visibilidad del panel de estadísticas. Se utiliza useEffect para hacer la solicitud de los productos a la API externa y actualizar el estado de la aplicación.
+-AdvancedStatsPanel: Muestra estadísticas específicas por categoría, como precio promedio y rating por categoría. Producto más caro y más barato en cada categoría.
 
-Requisitos previos
+-SearchBar: Campo de búsqueda que permite filtrar productos por título.
+
+-FilterBar: Barra de filtros que permite seleccionar categoría, ordenar por precio o rating y reiniciar los filtros.
+
+-ProductCharts: Componente que genera gráficos dinámicos (barras, líneas y tortas) a partir de los productos filtrados.
+```
+La aplicación principal (App.jsx) gestiona:
+-El estado global de los productos, filtros y opciones de exportación.
+-Las llamadas a la API externa con axios para obtener productos y categorías.
+-La lógica de paginación, ordenamiento y filtrado.
+-La exportación de los productos filtrados en distintos formatos (JSON, CSV, Excel).
+-El control del modo oscuro y la visibilidad del panel de estadísticas.
+```
+**Requisitos previos**
 Antes de ejecutar el proyecto, debes asegurarte de tener instaladas las siguientes herramientas en tu PC:
 
 Node.js (version 14 o superior)
@@ -73,7 +86,7 @@ Accede al directorio del proyecto y ejecuta el siguiente comando para instalar t
 
 cd tu-repositorio npm install
 
-Ejecutar el Proyecto:
+**Ejecutar el Proyecto:**
 Para iniciar la aplicación en tu entorno local, ejecuta el siguiente comando: npm run dev
 
 Esto abrirá la aplicación en el navegador en http://localhost:5173.
