@@ -53,7 +53,7 @@ function App() {
     setPage(1);
     setCategoryFilter(newCategory);
   };
-
+   
   // Filtrar y ordenar productos
   const filteredProducts = products
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
@@ -245,6 +245,7 @@ function App() {
       {show && filteredProducts.length > 0 && (
         <>
           <StatsPanel
+            key={`${search}-${categoryFilter}`}  // Asegurarse de que se actualicen las estadísticas al cambiar la búsqueda o categoría
             total={filteredProducts.length}
             max={filteredMax}
             min={filteredMin}
